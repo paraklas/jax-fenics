@@ -153,7 +153,7 @@ def vjp_solve_eval(
         res_T = list(itertools.zip_longest(*res))
         return tuple(map(np.vstack, res_T)), (batch_axes[0],) * len(args)
 
-    jax.batching.primitive_batchers[vjp_fun1_p] = vjp_fun1_batch
+    .primitive_batchers[vjp_fun1_p] = vjp_fun1_batch
 
     return numpy_output, vjp_fun1
 
@@ -307,7 +307,7 @@ def build_jax_solve_eval(fenics_templates: FenicsVariable) -> Callable:
             res = np.asarray(res)
             return res, batch_axes[0]
 
-        jax.batching.primitive_batchers[jax_solve_eval_p] = jax_solve_eval_batch
+        jax.iterators.batching.primitive_batchers[jax_solve_eval_p] = jax_solve_eval_batch
 
         # @trace("djax_solve_eval")
         def djax_solve_eval(*args):
@@ -366,7 +366,7 @@ def build_jax_solve_eval_fwd(fenics_templates: FenicsVariable) -> Callable:
             res = np.asarray(res)
             return res, batch_axes[0]
 
-        jax.batching.primitive_batchers[jax_solve_eval_p] = jax_solve_eval_batch
+        jax.iterators.batching.primitive_batchers[jax_solve_eval_p] = jax_solve_eval_batch
 
         # @trace("jvp_jax_solve_eval")
         def jvp_jax_solve_eval(ps, ts):
